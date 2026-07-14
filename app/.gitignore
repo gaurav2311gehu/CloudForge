@@ -1,0 +1,23 @@
+node_modules/
+.env
+.env.local
+.env.production
+npm-debug.log*
+*.log
+*.tar
+
+# Kubernetes sensitive files
+kubeconfig
+*.kubeconfig
+k8s/secrets/
+*-secret.yaml
+*-secrets.yaml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
