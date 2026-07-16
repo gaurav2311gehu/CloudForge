@@ -1,4 +1,4 @@
-name: cloudforge
+name: cloudforge CI
 on:
   push:
     branches:
@@ -14,24 +14,25 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-      - name: Run a simple command
-        run: echo "CI pipeline for CloudForge"
-
       - name: Install frontend dependencies
-        run: 
-          cd frontend && npm install
+        run: |
+          cd app/frontend
+          npm install
 
       - name: Run tests for frontend
-        run: 
-          cd frontend && npm test
+        run: |
+          cd app/frontend 
+          npm test --watchAll=false
 
       - name: Install backend dependencies
-        run: 
-          cd backend && npm install
+        run: |
+          cd app/backend
+          npm install
 
       - name: Run tests for backend
-        run: 
-          cd backend && npm test
+        run: |
+          cd app/backend
+          npm test
 
       - name: docker login
         run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
