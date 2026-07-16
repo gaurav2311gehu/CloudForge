@@ -1,11 +1,11 @@
 variable "aws_region" {
   type    = string
-  default = "ap-south-1"
+  default = "eu-north-1"
 }
 
 variable "project_name" {
   type    = string
-  default = "gaurav-eks-demo"
+  default = "cloudforge-cluster"
 }
 
 variable "cluster_version" {

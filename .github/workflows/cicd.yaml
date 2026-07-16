@@ -17,33 +17,77 @@ jobs:
       - name: Run a simple command
         run: echo "CI pipeline for CloudForge"
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install frontend dependencies
+        run: 
+          cd frontend && npm install
+
+      - name: Run tests for frontend
+        run: 
+          cd frontend && npm test
+
+      - name: Install backend dependencies
+        run: 
+          cd backend && npm install
+
+      - name: Run tests for backend
+        run: 
+          cd backend && npm test
 
       - name: docker login
         run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Docker build
-        run: docker build -t gauravsaini2311/cloudforge .
+      - name: Build Frontend Docker image
+        run: |
+          docker build -t gauravsaini2311/cloudforge-frontend:latest ./frontend
+
+      - name: Build Backend Docker image
+        run: |
+          docker build -t gauravsaini2311/cloudforge-backend:latest ./backend
 
       - name: Docker push
-        run: docker push gauravsaini2311/cloudforge
-    
-      - name: terraform init
-        run: terraform init
-    
-      - name: terraform plan
-        run: terraform plan
-
-      - name: terraform apply
-        run: terraform apply -auto-approve 
-
-      - name: ec2 login
         run: |
-          ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_KEY }} ubuntu@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
-            docker pull gauravsaini2311/cloudforge
-            docker run -d -p 80:80 gauravsaini2311/cloudforge
-          EOF
+          docker push gauravsaini2311/cloudforge-frontend:latest
+          docker push gauravsaini2311/cloudforge-backend:latest
 
-        
+      # - uses: hashicorp/setup-terraform@v3
+      #   with:
+      #     terraform_version: 1.0.0
+      # - name: terraform init
+      #   run: terraform init
+    
+      # - name: terraform plan
+      #   run: terraform plan
+
+      # - name: terraform apply
+      #   run: terraform apply -auto-approve 
+
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v2
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: eu-north-1
+
+      # - name: Configure kubectl
+      #   run: |
+      #     aws eks update-kubeconfig --name cloudforge-cluster --region eu-north-1
+
+      # - name: Deploy to EKS
+      #   run: |
+      #     kubectl apply -f manifests/
+          
+
+      # - name: Verify Deployment
+      #   run: |
+      #     kubectl rollout status deployment/cloudforge-frontend
+      #     kubectl rollout status deployment/cloudforge-backend
+
+      # - name: Install helm
+      #   run: |
+      #     helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+      #     helm repo update
+
+      #     helm upgrade --install monitoring prometheus-community/kube-prometheus-stack --namespace monitoring --create-namespace
+
+
 
