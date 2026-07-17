@@ -47,8 +47,8 @@ jobs:
 
       - name: Docker push
         run: |
-          docker push gauravsaini2311/cloudforge-frontend:latest ./app/frontend
-          docker push gauravsaini2311/cloudforge-backend:latest ./app/backend
+          docker push gauravsaini2311/cloudforge-frontend:latest 
+          docker push gauravsaini2311/cloudforge-backend:latest
 
       # - uses: hashicorp/setup-terraform@v3
       #   with:
