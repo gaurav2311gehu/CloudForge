@@ -39,16 +39,16 @@ jobs:
 
       - name: Build Frontend Docker image
         run: |
-          docker build -t gauravsaini2311/cloudforge-frontend:latest ./frontend
+          docker build -t gauravsaini2311/cloudforge-frontend:latest ./app/frontend
 
       - name: Build Backend Docker image
         run: |
-          docker build -t gauravsaini2311/cloudforge-backend:latest ./backend
+          docker build -t gauravsaini2311/cloudforge-backend:latest ./app/backend
 
       - name: Docker push
         run: |
-          docker push gauravsaini2311/cloudforge-frontend:latest
-          docker push gauravsaini2311/cloudforge-backend:latest
+          docker push gauravsaini2311/cloudforge-frontend:latest ./app/frontend
+          docker push gauravsaini2311/cloudforge-backend:latest ./app/backend
 
       # - uses: hashicorp/setup-terraform@v3
       #   with:
